@@ -10,5 +10,5 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=12345
       - MYSQL_PASSWORD=12345
-      - MYSQL_USER=kaique
+      - MYSQL_USER=algas
       - MYSQL_DATABASE=algas

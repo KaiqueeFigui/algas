@@ -4,7 +4,7 @@ import mysql.connector
 
 banco = mysql.connector.connect(
     host = "localhost",
-    user = "kaique",
+    user = "algas",
     password = "12345",
     database = "algas",
     auth_plugin='mysql_native_password'
