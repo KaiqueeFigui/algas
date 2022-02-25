@@ -4,7 +4,7 @@ import mysql.connector
 
 banco = mysql.connector.connect(
     host = "localhost",
-    user = "algas",
+    user = "root",
     password = "12345",
     database = "algas",
     auth_plugin='mysql_native_password'
@@ -35,4 +35,4 @@ def salva_valores_bd(valores):
     banco.commit()
     print(cursor.rowcount)
 
-salva_valores_bd(contador_tempo_memoria(1, 10, 1))
+salva_valores_bd(contador_tempo_memoria(1, 1000, 100))
