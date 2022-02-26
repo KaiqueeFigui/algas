@@ -13,14 +13,13 @@ banco = mysql.connector.connect(
 cursor = banco.cursor()
 
 def contador_tempo_memoria(inicio, fim, passo = 1):
+    start = time.time()
     transactions = []
-    tempo = []
     memoria_usada = []
     for i in range(inicio, fim, passo):
-        start = time.time()
         transactions.append(i)
-        tempo.append(time.time() - start)
         memoria_usada.append(sys.getsizeof(transactions))
+    tempo = (time.time() - start)
     return { 'inicio': inicio, 'fim': fim, 'passo': passo, 'transactions': transactions, 'tempo': tempo, 'memoria_usada': memoria_usada }
 
 def salva_valores_bd(valores):
@@ -30,9 +29,9 @@ def salva_valores_bd(valores):
     memoria_usada = valores['memoria_usada']
 
     for i in range(0, len(transactions)):
-        info = (valores['inicio'], valores['fim'], valores['passo'], transactions[i], tempo[i], memoria_usada[i])
+        info = (valores['inicio'], valores['fim'], valores['passo'], transactions[i], tempo, memoria_usada[i])
         cursor.execute(query, info)
     banco.commit()
     print(cursor.rowcount)
 
-salva_valores_bd(contador_tempo_memoria(1, 1000, 100))
+salva_valores_bd(contador_tempo_memoria(1, 100000, 1000))
