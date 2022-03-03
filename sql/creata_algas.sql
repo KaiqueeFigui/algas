@@ -3,6 +3,10 @@ CREATE TABLE algas(
 	inicio int,
 	fim int,
 	passo int,
+	valor int,
 	tempo decimal(10,10),
 	memoria_usada int
 );
+
+ALTER TABLE algas
+  DROP COLUMN valor
