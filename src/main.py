@@ -4,7 +4,7 @@ import mysql.connector
 
 banco = mysql.connector.connect(
     host = "localhost",
-    user = "root",
+    user = "algas",
     password = "12345",
     database = "algas",
     auth_plugin='mysql_native_password'
@@ -13,25 +13,44 @@ banco = mysql.connector.connect(
 cursor = banco.cursor()
 
 def contador_tempo_memoria(inicio, fim, passo = 1):
-    start = time.time()
-    transactions = []
-    for i in range(inicio, fim, passo):
-        transactions.append(i)
-    memoria_usada = sys.getsizeof(transactions)
-    tempo = (time.time() - start)
-    return { 'inicio': inicio, 'fim': fim, 'passo': passo, 'tempo': tempo, 'memoria_usada': memoria_usada }
 
-def salva_valores_bd(valores):
-    query = "INSERT INTO algas (inicio, fim, passo, tempo, memoria_usada) VALUES (%s, %s, %s, %s, %s)"
-    tempo = valores['tempo']
-    memoria_usada = valores['memoria_usada']
-    info = (valores['inicio'], valores['fim'], valores['passo'], tempo, memoria_usada)
+    id_range = select_id_range(inicio, fim)
+
+    transactions = []
+    tempo = []
+    espaco = []
+    start = time.time()
+    for i in range(inicio, fim, passo):
+        
+        transactions.append(i)
+        espaco.append(sys.getsizeof(i))
+        # end = time.time()
+        # tempo.append((end - start) - 0.1)
+
+    for i in range(0, len(transactions), 1):
+        save_transactions((time.time() - start), espaco[i], transactions[i], id_range)
+
+def select_id_range(inicio, fim):
+    query = "SELECT ID from ranges WHERE inicio = %s AND fim = %s"
+    cursor.execute(query, (inicio, fim))
+    id_range = cursor.fetchone()[0]
+    return id_range
+        
+
+def save_transactions(tempo, espaco, passo, id_range):
+    query = "INSERT INTO transactions (tempo, espaco, passos, fk_range) VALUES (%s, %s, %s, %s)"
+    info = (tempo, espaco, passo, id_range)
     cursor.execute(query, info)
     banco.commit()
     print(cursor.rowcount)
 
-salva_valores_bd(contador_tempo_memoria(100000, 600000, 100000))
-salva_valores_bd(contador_tempo_memoria(1000, 6000, 100))
-salva_valores_bd(contador_tempo_memoria(100, 600, 100))
-salva_valores_bd(contador_tempo_memoria(10, 60, 10))
-salva_valores_bd(contador_tempo_memoria(1000000, 6000000, 1000000))
+contador_tempo_memoria(100000, 600000, 100000)
+contador_tempo_memoria(1000, 6000, 100)
+contador_tempo_memoria(100, 600, 100)
+contador_tempo_memoria(10, 60, 10)
+contador_tempo_memoria(1000000, 6000000, 1000000)
+# salva_valores_bd(contador_tempo_memoria(100000, 600000, 100000))
+# salva_valores_bd(contador_tempo_memoria(1000, 6000, 100))
+# salva_valores_bd(contador_tempo_memoria(100, 600, 100))
+# salva_valores_bd(contador_tempo_memoria(10, 60, 10))
+# salva_valores_bd(contador_tempo_memoria(1000000, 6000000, 1000000))
