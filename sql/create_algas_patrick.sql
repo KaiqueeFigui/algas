@@ -12,3 +12,5 @@ create table transactions(
     fk_range int,
     foreign key (fk_range) references ranges(ID)
 );
+
+insert into ranges (inicio, fim) values (100000, 600000), (1000, 6000), (100, 600), (10, 60), (1000000, 6000000);
