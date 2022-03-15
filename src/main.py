@@ -21,11 +21,8 @@ def contador_tempo_memoria(inicio, fim, passo = 1):
     espaco = []
     start = time.time()
     for i in range(inicio, fim, passo):
-        
         transactions.append(i)
         espaco.append(sys.getsizeof(i))
-        # end = time.time()
-        # tempo.append((end - start) - 0.1)
 
     for i in range(0, len(transactions), 1):
         save_transactions((time.time() - start), espaco[i], transactions[i], id_range)
@@ -38,7 +35,7 @@ def select_id_range(inicio, fim):
         
 
 def save_transactions(tempo, espaco, passo, id_range):
-    query = "INSERT INTO transactions (tempo, espaco, passos, fk_range) VALUES (%s, %s, %s, %s)"
+    query = "INSERT INTO transactions (tempo, espaco, passo, fk_range) VALUES (%s, %s, %s, %s)"
     info = (tempo, espaco, passo, id_range)
     cursor.execute(query, info)
     banco.commit()
@@ -49,8 +46,3 @@ contador_tempo_memoria(1000, 6000, 100)
 contador_tempo_memoria(100, 600, 100)
 contador_tempo_memoria(10, 60, 10)
 contador_tempo_memoria(1000000, 6000000, 1000000)
-# salva_valores_bd(contador_tempo_memoria(100000, 600000, 100000))
-# salva_valores_bd(contador_tempo_memoria(1000, 6000, 100))
-# salva_valores_bd(contador_tempo_memoria(100, 600, 100))
-# salva_valores_bd(contador_tempo_memoria(10, 60, 10))
-# salva_valores_bd(contador_tempo_memoria(1000000, 6000000, 1000000))
