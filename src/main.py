@@ -13,11 +13,8 @@ banco = mysql.connector.connect(
 cursor = banco.cursor()
 
 def contador_tempo_memoria(inicio, fim, passo = 1):
-
     id_range = select_id_range(inicio, fim)
-
     transactions = []
-    tempo = []
     espaco = []
     start = time.time()
     for i in range(inicio, fim, passo):
