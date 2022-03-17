@@ -1,7 +1,7 @@
-echo 'iniciando container...'
+echo 'Iniciando container MySQL...'
 docker start algas_mysql_1
-echo 'baixando dependencias necessarias para rodar o script...'
+echo 'Baixando e instalando dependências necessárias para o script...'
 pip3 install -r requirements.txt
 sleep 5
-echo 'iniciando jupyter...'
-jupyter notebook --port 8889 --ip=
+echo 'Iniciando jupyter notebook...'
+jupyter notebook src/insert_data.ipynb --port 8889 --ip=
