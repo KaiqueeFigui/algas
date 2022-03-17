@@ -1,12 +1,16 @@
 import time
 import sys
 import mysql.connector
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 banco = mysql.connector.connect(
-    host = "localhost",
-    user = "algas",
-    password = "12345",
-    database = "algas",
+    host = os.getenv('DATABASE_HOST'),
+    user = os.getenv('DATABASE_USER'),
+    password = os.getenv('DATABASE_PASSWORD'),
+    database = os.getenv('DATABASE_NAME'),
     auth_plugin='mysql_native_password'
 )
 
@@ -20,7 +24,7 @@ def contador_tempo_memoria(inicio, fim, passo = 1):
     for i in range(inicio, fim, passo):
         transactions.append(i)
         espaco.append(sys.getsizeof(i))
-
+        
     for i in range(0, len(transactions), 1):
         save_transactions((time.time() - start), espaco[i], transactions[i], id_range)
 
