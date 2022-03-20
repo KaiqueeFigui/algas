@@ -60,6 +60,9 @@ class Connection:
         query = 'SELECT * FROM {}'.format(table_name);
         return self.__cursor_fetch_all(query)
 
+    def do_select(self, query):
+        return self.__cursor_fetch_all(query)
+
     def __cursor_fetch_all(self, query):
         cursor = self.database.cursor()
         cursor.execute(query)

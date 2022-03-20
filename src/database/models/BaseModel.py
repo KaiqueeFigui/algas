@@ -27,3 +27,6 @@ class BaseModel(ABC):
         fields_copy = self.fields.copy()
         fields_copy.remove('id')
         return self.connection.insert(self.table_name, fields_copy, values)
+
+    def custom_find(self, query):
+        return self.connection.do_select(query)
