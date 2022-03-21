@@ -1,23 +1,13 @@
 import time
 import sys
-import mysql.connector
-import os
-from dotenv import load_dotenv
+from database.models.RangeModel import RangeModel
+from database.models.TransactionModel import TransactionModel
 
-load_dotenv()
-
-banco = mysql.connector.connect(
-    host = os.getenv('DATABASE_HOST'),
-    user = os.getenv('DATABASE_USER'),
-    password = os.getenv('DATABASE_PASSWORD'),
-    database = os.getenv('DATABASE_NAME'),
-    auth_plugin='mysql_native_password'
-)
-
-cursor = banco.cursor()
+rangeModel = RangeModel()
+transactionModel = TransactionModel()
 
 def contador_tempo_memoria(inicio, fim, passo = 1):
-    id_range = select_id_range(inicio, fim)
+    id_range = transactionModel.custom_find(f"SELECT id from ranges where inicio = {inicio} AND fim = {fim}")[0][0]
     transactions = []
     espaco = []
     start = time.time()
@@ -26,21 +16,7 @@ def contador_tempo_memoria(inicio, fim, passo = 1):
         espaco.append(sys.getsizeof(i))
         
     for i in range(0, len(transactions), 1):
-        save_transactions((time.time() - start), espaco[i], transactions[i], id_range)
-
-def select_id_range(inicio, fim):
-    query = "SELECT ID from ranges WHERE inicio = %s AND fim = %s"
-    cursor.execute(query, (inicio, fim))
-    id_range = cursor.fetchone()[0]
-    return id_range
-        
-
-def save_transactions(tempo, espaco, passo, id_range):
-    query = "INSERT INTO transactions (tempo, espaco, passo, fk_range) VALUES (%s, %s, %s, %s)"
-    info = (tempo, espaco, passo, id_range)
-    cursor.execute(query, info)
-    banco.commit()
-    print(cursor.rowcount)
+        transactionModel.save((time.time() - start, espaco[i], transactions[i], id_range))
 
 contador_tempo_memoria(100000, 600000, 100000)
 contador_tempo_memoria(1000, 6000, 100)
