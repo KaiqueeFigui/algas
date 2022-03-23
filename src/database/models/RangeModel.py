@@ -1,7 +1,12 @@
-from .BaseModel import BaseModel
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import declarative_base, relationship
 
-class RangeModel(BaseModel):
-    def __init__(self):
-        self.table_name = "ranges"
-        self.fields = ['id', 'inicio', 'fim']
-        super().__init__(self.table_name, self.fields)
+Base = declarative_base()
+
+class RangeModel(Base):
+
+    __tablename__ = 'ranges'
+
+    id = Column(Integer, primary_key=True)
+    inicio = Column(Integer)
+    fim = Column(Integer)

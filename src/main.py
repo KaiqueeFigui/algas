@@ -2,12 +2,13 @@ import time
 import sys
 from database.models.RangeModel import RangeModel
 from database.models.TransactionModel import TransactionModel
+from database.Connection import Connection
+from sqlalchemy.orm import sessionmaker
 
-rangeModel = RangeModel()
-transactionModel = TransactionModel()
+session = Connection().session
 
 def contador_tempo_memoria(inicio, fim, passo = 1):
-    id_range = transactionModel.custom_find(f"SELECT id from ranges where inicio = {inicio} AND fim = {fim}")[0][0]
+    id_range = session.query(RangeModel).filter_by(inicio = inicio, fim = fim).first().id
     transactions = []
     espaco = []
     start = time.time()
@@ -16,7 +17,9 @@ def contador_tempo_memoria(inicio, fim, passo = 1):
         espaco.append(sys.getsizeof(i))
         
     for i in range(0, len(transactions), 1):
-        transactionModel.save((time.time() - start, espaco[i], transactions[i], id_range))
+        Transaction = TransactionModel(tempo = time.time() - start, espaco = espaco[i], passo = transactions[i], fk_range = id_range)
+        session.add(Transaction)
+        session.commit()
 
 contador_tempo_memoria(100000, 600000, 100000)
 contador_tempo_memoria(1000, 6000, 100)

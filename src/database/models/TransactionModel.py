@@ -1,7 +1,15 @@
-from .BaseModel import BaseModel
+from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy.orm import declarative_base
+from .RangeModel import RangeModel
 
-class TransactionModel(BaseModel):
-    def __init__(self):
-        self.table_name = 'transactions'
-        self.fields = ['id', 'tempo', 'espaco', 'passo', 'fk_range']
-        super().__init__(self.table_name, self.fields)
+Base = declarative_base()
+
+class TransactionModel(Base):
+
+    __tablename__ = 'transactions'
+
+    id = Column(Integer, primary_key=True)
+    tempo = Column(Float)
+    espaco = Column(Integer)
+    passo = Column(Integer)
+    fk_range = Column(Integer)
