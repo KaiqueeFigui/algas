@@ -7,7 +7,7 @@ create table ranges(
 
 create table transactions(
 	id int primary key auto_increment,
-    tempo decimal(10,10),
+    tempo double(10,2),
     espaco int,
 	passo int not null,
     fk_range int,

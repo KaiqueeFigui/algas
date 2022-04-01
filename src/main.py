@@ -13,7 +13,6 @@ def contador_tempo_memoria(inicio, fim, passo = 1):
     espaco = []
     start = time.time()
     for i in range(inicio, fim, passo):
-        print(i)
         transactions.append(i)
         espaco.append(sys.getsizeof(i))
         
@@ -21,6 +20,7 @@ def contador_tempo_memoria(inicio, fim, passo = 1):
         Transaction = TransactionModel(tempo = time.time() - start, espaco = espaco[i], passo = transactions[i], fk_range = Range.id)
         session.add(Transaction)
         session.commit()
+        print(f"Transação {i} salva")
 
 def select_range(inicio, fim, passo):
     range = session.query(RangeModel).filter_by(inicio = inicio, fim = fim, passo = passo).first()
