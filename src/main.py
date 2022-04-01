@@ -21,6 +21,7 @@ def contador_tempo_memoria(inicio, fim, passo = 1):
         session.add(Transaction)
         session.commit()
         print("Transaction: ", transactions[i], " - Memory: ", espaco[i])
+    print("Tempo total: ", time.time() - start)
 
 def select_range(inicio, fim, passo):
     range = session.query(RangeModel).filter_by(inicio = inicio, fim = fim, passo = passo).first()
