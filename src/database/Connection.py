@@ -11,7 +11,7 @@ class Connection():
         host = os.getenv('DATABASE_HOST')
         password = os.getenv('DATABASE_PASSWORD')
         database = os.getenv('DATABASE_NAME')
-        self.engine = create_engine(f'mysql+pymysql://{user}:{password}@{host}/{database}', echo = True)
+        self.engine = create_engine(f'mysql+pymysql://{user}:{password}@{host}/{database}', echo = False)
         self.connection = self.engine.connect()
         self.__create_session()
 

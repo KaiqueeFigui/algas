@@ -8,21 +8,35 @@ from sqlalchemy.orm import sessionmaker
 session = Connection().session
 
 def contador_tempo_memoria(inicio, fim, passo = 1):
-    id_range = session.query(RangeModel).filter_by(inicio = inicio, fim = fim).first().id
+    Range = select_range(inicio, fim, passo)
     transactions = []
     espaco = []
     start = time.time()
     for i in range(inicio, fim, passo):
+        print(i)
         transactions.append(i)
         espaco.append(sys.getsizeof(i))
         
     for i in range(0, len(transactions), 1):
-        Transaction = TransactionModel(tempo = time.time() - start, espaco = espaco[i], passo = transactions[i], fk_range = id_range)
+        Transaction = TransactionModel(tempo = time.time() - start, espaco = espaco[i], passo = transactions[i], fk_range = Range.id)
         session.add(Transaction)
         session.commit()
 
-contador_tempo_memoria(100000, 600000, 100000)
-contador_tempo_memoria(1000, 6000, 100)
-contador_tempo_memoria(100, 600, 100)
-contador_tempo_memoria(10, 60, 10)
-contador_tempo_memoria(1000000, 6000000, 1000000)
+def select_range(inicio, fim, passo):
+    range = session.query(RangeModel).filter_by(inicio = inicio, fim = fim, passo = passo).first()
+    if (range == None):
+        Range = RangeModel(inicio = inicio, fim = fim, passo = passo)
+        session.add(Range)
+        session.commit()
+        return Range
+    else:
+        return range
+
+print("Escolha o iníco do range")
+questionStart = int(input())
+print("Escolha o fim do range")
+questionEnd = int(input())
+print("Escolha o passo do range")
+questionStep = int(input())
+
+contador_tempo_memoria(questionStart, questionEnd, questionStep)

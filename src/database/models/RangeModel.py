@@ -10,3 +10,4 @@ class RangeModel(Base):
     id = Column(Integer, primary_key=True)
     inicio = Column(Integer)
     fim = Column(Integer)
+    passo = Column(Integer)
