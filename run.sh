@@ -18,3 +18,10 @@ cat ./src/.env.example >> .env
 
 echo 'Iniciando docker compose...'
 sudo docker-compose up -d
+
+echo 'Instalando dependências do projeto...'
+pip3 install -r requirements.txt
+clear
+
+echo 'Instalação concluída com sucesso!'
+exit 0
