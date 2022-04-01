@@ -3,7 +3,6 @@ import sys
 from database.models.RangeModel import RangeModel
 from database.models.TransactionModel import TransactionModel
 from database.Connection import Connection
-from sqlalchemy.orm import sessionmaker
 
 session = Connection().session
 
@@ -20,7 +19,7 @@ def contador_tempo_memoria(inicio, fim, passo = 1):
         Transaction = TransactionModel(tempo = time.time() - start, espaco = espaco[i], passo = transactions[i], fk_range = Range.id)
         session.add(Transaction)
         session.commit()
-        print(f"Transação {i} salva")
+        print("Transaction: ", transactions[i], " - Memory: ", espaco[i])
 
 def select_range(inicio, fim, passo):
     range = session.query(RangeModel).filter_by(inicio = inicio, fim = fim, passo = passo).first()
@@ -32,11 +31,11 @@ def select_range(inicio, fim, passo):
     else:
         return range
 
-print("Escolha o iníco do range")
+print("Escolha o início do range")
 questionStart = int(input())
 print("Escolha o fim do range")
-questionEnd = int(input())
+questionFinal = int(input())
 print("Escolha o passo do range")
 questionStep = int(input())
 
-contador_tempo_memoria(questionStart, questionEnd, questionStep)
+contador_tempo_memoria(questionStart, questionFinal, questionStep)
