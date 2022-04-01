@@ -1,7 +1,8 @@
 create table ranges(
 	id int primary key auto_increment,
     inicio int not null,
-    fim int not null
+    fim int not null,
+	passos int not null
 );
 
 create table transactions(
