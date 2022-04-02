@@ -7,6 +7,7 @@ from database.Connection import Connection
 session = Connection().session
 
 def contador_tempo_memoria(inicio, fim, passo = 1):
+    valida_range(inicio, fim, passo)
     start = time.time()
     Range = select_range(inicio, fim, passo)
     transactions = []
@@ -34,6 +35,14 @@ def select_range(inicio, fim, passo):
         return Range
     else:
         return range
+
+def valida_range(inicio, fim, passo):
+    if fim < inicio and passo > -1:
+        raise Exception("O passo deve ser negativo para fazer inserção no banco")
+    
+    subtract = fim - inicio
+    if passo > subtract:
+        raise Exception("O passo deve ser menor para haver uma transação")
 
 print("Escolha o início do range")
 questionStart = int(input())
