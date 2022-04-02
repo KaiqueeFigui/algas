@@ -7,20 +7,23 @@ from database.Connection import Connection
 session = Connection().session
 
 def contador_tempo_memoria(inicio, fim, passo = 1):
+    start = time.time()
     Range = select_range(inicio, fim, passo)
     transactions = []
     espaco = []
-    start = time.time()
     for i in range(inicio, fim, passo):
         transactions.append(i)
         espaco.append(sys.getsizeof(i))
         
     for i in range(0, len(transactions), 1):
-        Transaction = TransactionModel(tempo = time.time() - start, espaco = espaco[i], passo = transactions[i], fk_range = Range.id)
+        Transaction = TransactionModel(espaco = espaco[i], passo = transactions[i], fk_range = Range.id)
         session.add(Transaction)
         session.commit()
         print("Transaction: ", transactions[i], " - Memory: ", espaco[i])
-    print("Tempo total: ", time.time() - start)
+    Range.tempo = time.time() - start
+    session.add(Range)
+    session.commit()
+    print("Tempo total: ", Range.tempo)
 
 def select_range(inicio, fim, passo):
     range = session.query(RangeModel).filter_by(inicio = inicio, fim = fim, passo = passo).first()

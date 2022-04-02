@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, Float
 from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
@@ -11,3 +11,4 @@ class RangeModel(Base):
     inicio = Column(Integer)
     fim = Column(Integer)
     passo = Column(Integer)
+    tempo = Column(Float)
