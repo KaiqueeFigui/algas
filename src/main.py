@@ -39,6 +39,15 @@ def select_range(inicio, fim, passo):
 def valida_range(inicio, fim, passo):
     if fim < inicio and passo > -1:
         raise Exception("O passo deve ser negativo para fazer inserção no banco")
+
+    if passo == 0:
+        raise Exception("O passo tem que ser maior que zero")
+
+    if inicio == 0 and fim == 0:
+        raise Exception("Inicio ou fim tem que ser maior que zero, para haver intervalo")
+
+    if inicio == fim:
+        raise Exception("Inicio e fim devem ser diferentes para haver um intrvalo")
     
     subtract = fim - inicio
     if passo > subtract:
