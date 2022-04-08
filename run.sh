@@ -24,7 +24,7 @@ pip3 install -r requirements.txt
 clear
 
 echo 'Instalação concluída com sucesso!'
-timeout 5
+sleep 3
 
 echo 'Iniciando aplicação...'
 if [ -f "./src/main.py" ]; then
@@ -32,3 +32,4 @@ if [ -f "./src/main.py" ]; then
 else
     echo 'O arquivo main.py não foi encontrado!'
 fi
+
