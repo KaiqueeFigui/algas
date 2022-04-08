@@ -24,4 +24,3 @@ pip3 install -r requirements.txt
 clear
 
 echo 'Instalação concluída com sucesso!'
-exit 0
