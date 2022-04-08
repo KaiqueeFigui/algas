@@ -24,3 +24,11 @@ pip3 install -r requirements.txt
 clear
 
 echo 'Instalação concluída com sucesso!'
+timeout 5
+
+echo 'Iniciando aplicação...'
+if [ -f "./src/main.py" ]; then
+    python3 ./src/main.py
+else
+    echo 'O arquivo main.py não foi encontrado!'
+fi
