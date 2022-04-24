@@ -1,6 +1,7 @@
 import time
 import sys
 from database.models.RangeModel import RangeModel
+from database.models.RegionModel import RegionModel
 from database.models.TransactionModel import TransactionModel
 from database.Connection import Connection
 
@@ -58,3 +59,15 @@ print("Escolha o passo do range")
 questionStep = int(input())
 
 contador_tempo_memoria(questionStart, questionFinal, questionStep)
+
+
+def valores_por_regiao(date, value, region):
+    regiao = RegionModel()
+
+
+    print("\nDigite a data no formato YYYY-MM-DD")
+    date = dateTime.fromisoformat(input())
+    print("\nEscolha a região para ser analisada \n 1 - Norte \n 2 - Nordeste \n 3 - Centro-Oeste \n 4 - Sul \n 5 - Sudeste")
+    regionOption= int(input())
+
+    valores_por_regiao(date,value,region)
