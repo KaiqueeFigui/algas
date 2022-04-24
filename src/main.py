@@ -18,7 +18,7 @@ def generate_random_transactions(year):
             Transaction = TransactionModel(year = year, description = str(year) + '-T' + str(i), value = value)
             session.add(Transaction)
             session.commit()
-            print("Ano: ", transaction.year, "Ano/Trimestre ", transaction.description, " - Valor: ", transaction.value)
+            print("Ano: ", Transaction.year, "Ano/Trimestre ", Transaction.description, " - Valor: ", Transaction.value)
     else:
         print("\n")
         transactionsExists = session.query(TransactionModel).filter_by(year = year).all()
