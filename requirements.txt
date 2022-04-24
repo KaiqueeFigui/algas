@@ -6,3 +6,4 @@ pycparser==2.21
 PyMySQL==1.0.2
 python-dotenv==0.19.2
 SQLAlchemy==1.4.32
+tqdm

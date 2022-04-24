@@ -5,10 +5,12 @@ from datetime import date
 from database.models.RangeModel import RangeModel
 from database.models.TransactionModel import TransactionModel
 from database.models.NatureModel import NatureModel
+from database.models.RegionModel import RegionModel
 from database.Connection import Connection
 from tqdm import tqdm
 
 session = Connection().session
+natures = ["G2G", "G2B", "G2P", "B2G", "P2G", "B2B", "B2P", "P2B", "P2P"]
 
 def contador_tempo_memoria(inicio, fim, passo = 1):
     valida_range(inicio, fim, passo)
@@ -54,39 +56,18 @@ def valida_range(inicio, fim, passo):
     if passo > subtract:
         raise Exception("O passo deve ser menor para haver uma transação")
 
-def gera_valores_por_natureza(data, natureza, quantidade):
-    for i in tqdm(range(0, quantidade), desc='Processando dados'):
-        random_transaction = round(random.uniform(1, 10_000), 2)
-        Nature = NatureModel(date = data, value = random_transaction, nature_type = natureza)
-        session.add(Nature)
-        session.commit()
-
-def resgata_natureza(indice):
-    if indice == 1:
-        return "G2G"
-    elif indice == 2:
-        return "G2B"
-    elif indice == 3:
-        return "G2P"
-    elif indice == 4:
-        return "B2G"
-    elif indice == 5:
-        return "P2G"
-    elif indice == 6:
-        return "B2B"
-    elif indice == 7:
-        return "B2P"
-    elif indice == 8:
-        return "P2B"
-    elif indice == 9:
-        return "P2P"
+def gera_valores_por_natureza(data, passo):
+    for nature in range(0, len(natures)):
+        for i in tqdm(range(0, ((nature + 1) * passo)), desc='Processando dados ' + natures[nature]):
+            random_transaction = round(random.uniform(1, 10_000), 2)
+            Nature = NatureModel(date = data, value = random_transaction, nature_type = natures[nature])
+            session.add(Nature)
+            session.commit()
 
 print("Digite a data no formato YYYY-MM-DD:")
 date_transaction = date.fromisoformat(input())
-print("\nEscolha a natureza: \n1 - G2G \n2 - G2B \n3 - G2P \n4 - B2G \n5 - P2G \n6 - B2B \n7 - B2P \n8 - P2B \n9 - P2P")
-nature_transaction = resgata_natureza(int(input()))
-print("\nDigite a quantidade de transações:")
-count_transactions = int(input())
+print("\nDigite o quantidade de passos por natureza:")
+pass_count = int(input())
 print("\n")
 
-gera_valores_por_natureza(date_transaction, nature_transaction, count_transactions)
+gera_valores_por_natureza(date_transaction, pass_count)
