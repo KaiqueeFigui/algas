@@ -5,6 +5,6 @@ CREATE TABLE `transactions_with_card` (
   `description` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
   `space` int DEFAULT NULL,
-  `time` double(10,2) DEFAULT NULL,
+  `time` float(25,20)
   PRIMARY KEY (`id`)
 ) 
