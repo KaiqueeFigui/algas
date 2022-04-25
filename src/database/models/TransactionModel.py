@@ -1,6 +1,6 @@
-from sqlalchemy import Column, Integer, String, Float
+import datetime
+from sqlalchemy import Column, Integer, Float, DateTime
 from sqlalchemy.orm import declarative_base
-from .RangeModel import RangeModel
 
 Base = declarative_base()
 
@@ -9,6 +9,6 @@ class TransactionModel(Base):
     __tablename__ = 'transactions'
 
     id = Column(Integer, primary_key=True)
-    espaco = Column(Integer)
-    passo = Column(Integer)
-    fk_range = Column(Integer)
+    transaction_date = Column(DateTime, default=datetime.datetime.utcnow)
+    transaction_value = Column(Float)
+    fk_nature = Column(Integer)

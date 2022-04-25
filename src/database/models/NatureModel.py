@@ -1,14 +1,12 @@
-import datetime
-from sqlalchemy import Column, Integer, Float, DateTime, String
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
 class NatureModel(Base):
 
-    __tablename__ = 'nature'
+    __tablename__ = 'natures'
 
     id = Column(Integer, primary_key=True)
-    date = Column(DateTime, default=datetime.datetime.utcnow)
-    value = Column(Float)
-    nature_type = Column(String)
+    initials = Column(String)
+    nature_description = Column(String)
