@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, Float
 from sqlalchemy.orm import declarative_base
 from .RangeModel import RangeModel
 
@@ -10,5 +10,5 @@ class TransactionModel(Base):
 
     id = Column(Integer, primary_key=True)
     espaco = Column(Integer)
-    passo = Column(Integer)
-    fk_range = Column(Integer)
+    tempo = Column(Float)
+    fk_taxa = Column(Integer)

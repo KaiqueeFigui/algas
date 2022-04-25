@@ -1,60 +1,40 @@
-import time
-import sys
-from database.models.RangeModel import RangeModel
 from database.models.TransactionModel import TransactionModel
+from database.models.TaxaCreditoModel import TaxaCreditoModel
 from database.Connection import Connection
+import random
+import sys
+from datetime import date
+from Tempo import Tempo
 
 session = Connection().session
 
-def contador_tempo_memoria(inicio, fim, passo = 1):
-    valida_range(inicio, fim, passo)
-    start = time.time()
-    Range = select_range(inicio, fim, passo)
-    transactions = []
-    espaco = []
-    for i in range(inicio, fim, passo):
-        transactions.append(i)
-        espaco.append(sys.getsizeof(i))
-        
-    for i in range(0, len(transactions), 1):
-        Transaction = TransactionModel(espaco = espaco[i], passo = transactions[i], fk_range = Range.id)
-        session.add(Transaction)
-        session.commit()
-        print("Transaction: ", transactions[i], " - Memory: ", espaco[i])
-    Range.tempo = time.time() - start
-    session.add(Range)
+segmento = ["Varejo", "Agronegócio", "Suprimentos", "Drogaria"]
+
+def insert_transaction(espaco, tempo, fk_taxa):
+    Transaction = TransactionModel(espaco = espaco, tempo = tempo, fk_taxa = fk_taxa)
+    session.add(Transaction)
     session.commit()
-    print("Tempo total: ", Range.tempo)
 
-def select_range(inicio, fim, passo):
-    range = session.query(RangeModel).filter_by(inicio = inicio, fim = fim, passo = passo).first()
-    if (range == None):
-        Range = RangeModel(inicio = inicio, fim = fim, passo = passo)
-        session.add(Range)
-        session.commit()
-        return Range
-    else:
-        return range
+def gerar_dados(inicio, fim):
+    tempo = Tempo()
+    random_data = gerar_random() 
+    TaxaCredito = TaxaCreditoModel(data_inicio = inicio, data_fim = fim, segmento = random_data["segmento"], taxa_mes = random_data["taxa_mes"], taxa_ano = random_data["taxa_ano"])
+    session.add(TaxaCredito)
+    session.commit()
+    insert_transaction(sys.getsizeof(TaxaCredito), tempo.get_tempo_final(), TaxaCredito.id)
 
-def valida_range(inicio, fim, passo):
-    if fim < inicio and passo > -1:
-        raise Exception("O passo deve ser negativo para fazer inserção no banco")
+def gerar_random():
+    index_segmento = random.randrange(0, 3)
+    taxa_mes = random.randrange(0, 99) 
+    taxa_ano = random.randrange(0, 99)
+    return {"segmento": segmento[index_segmento], "taxa_mes": taxa_mes, "taxa_ano": taxa_ano}
 
-    if passo == 0:
-        raise Exception("O passo tem que ser maior que zero")
+def main():
+    print("Digite a data de inicio no formato YYYY-MM-DD:")
+    data_inicio = date.fromisoformat(input())
+    print("Digite a data final no formato YYYY-MM-DD:")
+    data_final = date.fromisoformat(input())
 
-    if inicio == fim:
-        raise Exception("Inicio e fim devem ser diferentes para haver um intrvalo")
-    
-    subtract = fim - inicio
-    if passo > subtract:
-        raise Exception("O passo deve ser menor para haver uma transação")
+    gerar_dados(data_inicio, data_final)
 
-print("Escolha o início do range")
-questionStart = int(input())
-print("Escolha o fim do range")
-questionFinal = int(input())
-print("Escolha o passo do range")
-questionStep = int(input())
-
-contador_tempo_memoria(questionStart, questionFinal, questionStep)
+main()

@@ -1,15 +1,16 @@
-create table ranges(
+create table taxaCredito(
 	id int primary key auto_increment,
-    inicio int not null,
-    fim int not null,
-	passo int not null,
-    tempo double(10,2) default NULL
+    data_inicio datetime,
+    data_fim datetime,
+    segmento varchar(45),
+    taxa_mes double(10, 2),
+    taxa_ano double(10, 2) 
 );
 
 create table transactions(
 	id int primary key auto_increment,
     espaco int,
 	passo int not null,
-    fk_range int,
-    foreign key (fk_range) references ranges(id)
+    fk_taxa int,
+    foreign key (fk_taxa) references taxaCredito(id)
 );
