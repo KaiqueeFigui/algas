@@ -12,3 +12,5 @@ class TransactionModel(Base):
     year = Column(String)
     description = Column(String)
     value = Column(Numeric)
+    space = Column(Integer)
+    time = Column(Float)
