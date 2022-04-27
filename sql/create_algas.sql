@@ -1,3 +1,9 @@
+create table transactions(
+	id int primary key auto_increment,
+    espaco int,
+    tempo double(10, 2)
+);
+
 create table taxa_credito(
 	id int primary key auto_increment,
     data_inicio datetime,
@@ -9,10 +15,4 @@ create table taxa_credito(
     taxa_ano double(10, 2),
     fk_transaction int,
     foreign key (fk_transaction) references transactions(id)
-);
-
-create table transactions(
-	id int primary key auto_increment,
-    espaco int,
-    tempo double(10, 2)
 );
