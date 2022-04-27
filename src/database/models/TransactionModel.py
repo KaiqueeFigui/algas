@@ -11,4 +11,3 @@ class TransactionModel(Base):
     id = Column(Integer, primary_key=True)
     espaco = Column(Integer)
     tempo = Column(Float)
-    fk_taxa = Column(Integer)
