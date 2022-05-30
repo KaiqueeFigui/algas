@@ -1,5 +1,5 @@
 from source.DataTwitter import DataTwitter
-from resources.content import content
+from assets.content import content
 
 print(content['author_string'])
 print(content['alert_message_string'])

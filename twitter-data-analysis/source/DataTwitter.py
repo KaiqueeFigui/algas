@@ -9,7 +9,7 @@ from os import path
 from dotenv import load_dotenv
 from datetime import datetime
 from wordcloud import WordCloud, STOPWORDS
-from resources.content import stop_words
+from assets.content import stop_words
 from distutils.log import error
 
 class DataTwitter:
@@ -73,7 +73,7 @@ class DataTwitter:
       except Exception as ex:
         raise error("Erro ao salvar arquivo", ex)
 
-  def show_word_cloud(self, filename, delimiter=';', maskpath='resources/images/twitter_logo.png'):
+  def show_word_cloud(self, filename, delimiter=';', maskpath='assets/images/twitter_logo.png'):
     comment_words = ''
     mask = np.array(Image.open(path.join(self.directory, maskpath)))
 

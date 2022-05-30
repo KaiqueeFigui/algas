@@ -7,9 +7,9 @@ Para saber mais como montar uma query, acesse: 'https://developer.twitter.com/en
   ''',
   'input_string'  : "\nEscreva uma query para buscar nos tweets:\n",
   'input_limit'   : "\nDelimite a quantidade de tweets que deseja buscar:\n",
-  'archive_name'  : "resources/tweets.csv",
-  'txt_archive_name': "resources/tweets.txt",
-  'json_archive_name': "resources/tweets.json",
+  'archive_name'  : "assets/tweets.csv",
+  'txt_archive_name': "assets/tweets.txt",
+  'json_archive_name': "assets/tweets.json",
   'fieldnames'    : ['text', 'created_at', 'source']
 }
 
