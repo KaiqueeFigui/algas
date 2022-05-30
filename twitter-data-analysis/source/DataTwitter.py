@@ -45,6 +45,11 @@ class DataTwitter:
           fieldnames[2]: tweet.source
         })
 
+  def save_txt_archive(self, tweets, filename, delimiter='   [end]\n'):
+    with open(filename, 'w', encoding="utf-8") as txt:
+      for tweet in tweets:
+        txt.write(str(tweet)+delimiter)
+
   def show_word_cloud(self, filename, delimiter=';', maskpath='resources/images/twitter_logo.png'):
     comment_words = ''
     mask = np.array(Image.open(path.join(self.directory, maskpath)))
