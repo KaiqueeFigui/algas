@@ -8,7 +8,7 @@ from os import path
 from dotenv import load_dotenv
 from datetime import datetime
 from wordcloud import WordCloud, STOPWORDS
-from resources.content import stop_words
+from assets.content import stop_words
 
 class DataTwitter:
 
