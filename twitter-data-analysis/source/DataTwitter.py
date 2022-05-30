@@ -50,7 +50,7 @@ class DataTwitter:
       for tweet in tweets:
         txt.write(str(tweet)+delimiter)
 
-  def show_word_cloud(self, filename, delimiter=';', maskpath='resources/images/twitter_logo.png'):
+  def show_word_cloud(self, filename, delimiter=';', maskpath='assets/images/twitter_logo.png'):
     comment_words = ''
     mask = np.array(Image.open(path.join(self.directory, maskpath)))
 
