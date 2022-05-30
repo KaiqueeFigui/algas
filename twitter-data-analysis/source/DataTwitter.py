@@ -52,7 +52,6 @@ class DataTwitter:
 
   def show_word_cloud(self, filename, delimiter=';', maskpath='resources/images/twitter_logo.png'):
     comment_words = ''
-    mask = np.array(Image.open(path.join(self.directory, maskpath)))
 
     with open(filename, 'r', encoding='utf-8') as csvfile:
       reader = csv.reader(csvfile, delimiter=delimiter)
@@ -67,7 +66,6 @@ class DataTwitter:
         WordCloud(
           background_color="white",
           max_font_size=60,
-          mask = mask,
           margin = 10,
           stopwords = self.stopwords,
         ).generate(comment_words)
