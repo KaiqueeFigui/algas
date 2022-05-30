@@ -3,12 +3,14 @@ import csv
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+import json
 from PIL import Image
 from os import path
 from dotenv import load_dotenv
 from datetime import datetime
 from wordcloud import WordCloud, STOPWORDS
 from resources.content import stop_words
+from distutils.log import error
 
 class DataTwitter:
 
@@ -49,6 +51,27 @@ class DataTwitter:
     with open(filename, 'w', encoding="utf-8") as txt:
       for tweet in tweets:
         txt.write(str(tweet)+delimiter)
+
+  def save_json_archive(self, tweets, filename):
+    with open(filename, 'w', encoding='utf=8') as json_file:
+      try:
+        list_object_tweets = []
+
+        for tweet in tweets:
+          list_object_tweets.append({
+            "text": tweet.text,
+            "created_at": tweet.created_at,
+            "source": tweet.source
+          })
+
+          data = {
+            "tweets": list_object_tweets
+          }
+
+          json.dump(data, json_file, indent=4)
+          print("Arquivo salvo")
+      except Exception as ex:
+        raise error("Erro ao salvar arquivo", ex)
 
   def show_word_cloud(self, filename, delimiter=';', maskpath='resources/images/twitter_logo.png'):
     comment_words = ''

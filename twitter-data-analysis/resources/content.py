@@ -1,6 +1,6 @@
 content = {
   'author_string': '''
-© Kalil Bego | 3CCO
+© Grupo 8 | 3CCO - 2022
 \n''',
   'alert_message_string': '''
 Para saber mais como montar uma query, acesse: 'https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query'
@@ -9,6 +9,7 @@ Para saber mais como montar uma query, acesse: 'https://developer.twitter.com/en
   'input_limit'   : "\nDelimite a quantidade de tweets que deseja buscar:\n",
   'archive_name'  : "resources/tweets.csv",
   'txt_archive_name': "resources/tweets.txt",
+  'json_archive_name': "resources/tweets.json",
   'fieldnames'    : ['text', 'created_at', 'source']
 }
 
