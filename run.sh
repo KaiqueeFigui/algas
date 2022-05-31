@@ -14,7 +14,7 @@ git pull
 clear
 
 echo 'Criando arquivo para váriavel de ambiente ...'
-cat ./src/.env.example >> .env
+cat ./.env.dev >> .env
 
 echo 'Iniciando docker compose...'
 sudo docker-compose up -d
@@ -30,6 +30,6 @@ echo 'Iniciando aplicação...'
 if [ -f "./src/main.py" ]; then
     python3 ./src/main.py
 else
-    echo 'O arquivo main.py não foi encontrado!'
+    echo 'O arquivo GeracaoDadosService.py não foi encontrado!'
 fi
 

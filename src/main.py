@@ -1,60 +1,70 @@
-import time
-import sys
-from database.models.RangeModel import RangeModel
-from database.models.TransactionModel import TransactionModel
-from database.Connection import Connection
+import service.DataTwitterService as TwitterService
+import service.GeracaoDadosService as GeracaoDadosService
+import service.FileHelperService as FileHelperService
+from tweassets.content import content
 
-session = Connection().session
+geracaoDadosService = GeracaoDadosService.GeracaoDadosService()
+OPERACAO_INVALIDA = "Operação inválida, tente novamente"
+data_twitter = TwitterService.DataTwitter()
 
-def contador_tempo_memoria(inicio, fim, passo = 1):
-    valida_range(inicio, fim, passo)
-    start = time.time()
-    Range = select_range(inicio, fim, passo)
-    transactions = []
-    espaco = []
-    for i in range(inicio, fim, passo):
-        transactions.append(i)
-        espaco.append(sys.getsizeof(i))
-        
-    for i in range(0, len(transactions), 1):
-        Transaction = TransactionModel(espaco = espaco[i], passo = transactions[i], fk_range = Range.id)
-        session.add(Transaction)
-        session.commit()
-        print("Transaction: ", transactions[i], " - Memory: ", espaco[i])
-    Range.tempo = time.time() - start
-    session.add(Range)
-    session.commit()
-    print("Tempo total: ", Range.tempo)
 
-def select_range(inicio, fim, passo):
-    range = session.query(RangeModel).filter_by(inicio = inicio, fim = fim, passo = passo).first()
-    if (range == None):
-        Range = RangeModel(inicio = inicio, fim = fim, passo = passo)
-        session.add(Range)
-        session.commit()
-        return Range
-    else:
-        return range
+def run_data_twitter():
+    input_str = input(content['input_string'])
+    input_limit = int(input(content['input_limit']))
+    return data_twitter.find_recent_tweets(input_str, input_limit)
 
-def valida_range(inicio, fim, passo):
-    if fim < inicio and passo > -1:
-        raise Exception("O passo deve ser negativo para fazer inserção no banco")
 
-    if passo == 0:
-        raise Exception("O passo tem que ser maior que zero")
+def archive_generation_option():
+    print("Qual tipo de arquivo deseja gerar:")
+    print("Tecle [1] para .csv")
+    print("Tecle [2] para .txt")
+    print("Tecle [3] para .json")
+    print("Tecle [4] para exibir a nuvem de palavras")
+    print("Tecle [Enter] para sair")
+    return input()
 
-    if inicio == fim:
-        raise Exception("Inicio e fim devem ser diferentes para haver um intrvalo")
-    
-    subtract = fim - inicio
-    if passo > subtract:
-        raise Exception("O passo deve ser menor para haver uma transação")
 
-print("Escolha o início do range")
-questionStart = int(input())
-print("Escolha o fim do range")
-questionFinal = int(input())
-print("Escolha o passo do range")
-questionStep = int(input())
+def generate_files_from_tweets(tweets):
+    while True:
+        option = archive_generation_option()
 
-contador_tempo_memoria(questionStart, questionFinal, questionStep)
+        if option == "1":
+            FileHelperService.FileHelperService.save_csv_archive(tweets, content['csv_archive_name'],
+                                                                 content['fieldnames'])
+        elif option == "2":
+            FileHelperService.FileHelperService.save_txt_archive(tweets, content['txt_archive_name'])
+        elif option == "3":
+            FileHelperService.FileHelperService.save_json_archive(tweets, content['json_archive_name'])
+        elif option == "4":
+            FileHelperService.FileHelperService.save_csv_archive(tweets, content['csv_archive_name'],
+                                                                 content['fieldnames'])
+            data_twitter.show_word_cloud(content_source_filename=content['csv_archive_name'])
+        elif option == "":
+            return
+        else:
+            print(OPERACAO_INVALIDA)
+
+
+def data_generation_option():
+    print("Selecione uma das seguintes opções:")
+    print("Tecle [1] para Buscar Posts no Twitter")
+    print("Tecle [2] para Geração de Dados aleatórios")
+    print("Tecle [Enter] para sair")
+    return input()
+
+
+def main():
+    while True:
+        option = data_generation_option()
+        if option == "1":
+            tweets = run_data_twitter()
+            generate_files_from_tweets(tweets)
+        elif option == "2":
+            geracaoDadosService.contador_tempo_memoria()
+        elif option == "":
+            return
+        else:
+            print(OPERACAO_INVALIDA)
+
+
+main()
