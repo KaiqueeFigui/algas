@@ -68,7 +68,7 @@ class DataTwitter:
           "tweets": list_object_tweets
         }
 
-        json.dump(data, json_file, indent=4)
+        json.dump(data, json_file, ensure_ascii=False, indent=4)
       except Exception as ex:
         raise error("Erro ao salvar arquivo", ex)
 
