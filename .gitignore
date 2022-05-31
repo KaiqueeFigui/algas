@@ -102,7 +102,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+.env.dev
 .venv
 env/
 venv/
@@ -128,5 +128,10 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# .idea
-.idea/
+/src/tweassets/tweets.*
+
+*.iml
+misc.xml
+modules.xml
+profiles_*.xml
+vcs.xml
