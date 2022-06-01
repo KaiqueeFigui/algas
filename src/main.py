@@ -1,11 +1,14 @@
 import service.DataTwitterService as TwitterService
 import service.GeracaoDadosService as GeracaoDadosService
 import service.FileHelperService as FileHelperService
+import service.BucketService as BucketService
 from tweassets.content import content
 
 geracaoDadosService = GeracaoDadosService.GeracaoDadosService()
-OPERACAO_INVALIDA = "Operação inválida, tente novamente"
 data_twitter = TwitterService.DataTwitter()
+bucket_service = BucketService.BucketService()
+
+OPERACAO_INVALIDA = "Operação inválida, tente novamente"
 
 
 def run_data_twitter():
@@ -15,7 +18,7 @@ def run_data_twitter():
 
 
 def archive_generation_option():
-    print("Qual tipo de arquivo deseja gerar:")
+    print("Qual tipo de arquivo deseja salva no bucket:")
     print("Tecle [1] para .csv")
     print("Tecle [2] para .txt")
     print("Tecle [3] para .json")
@@ -31,10 +34,13 @@ def generate_files_from_tweets(tweets):
         if option == "1":
             FileHelperService.FileHelperService.save_csv_archive(tweets, content['csv_archive_name'],
                                                                  content['fieldnames'])
+            bucket_service.send("stack-01-kaique-3cco-sptech-bucket-ns", content['csv_archive_name'], content['csv_name'])
         elif option == "2":
             FileHelperService.FileHelperService.save_txt_archive(tweets, content['txt_archive_name'])
+            bucket_service.send("stack-01-kaique-3cco-sptech-bucket-ns", content['txt_archive_name'], content['txt_name'])
         elif option == "3":
-            FileHelperService.FileHelperService.save_json_archive(tweets, content['json_archive_name'])
+            FileHelperService.FileHelperService.save_tweets_to_json_archive(tweets, content['json_archive_name'])
+            bucket_service.send("stack-01-kaique-3cco-sptech-bucket-ns", content['json_archive_name'], content['json_name'])
         elif option == "4":
             FileHelperService.FileHelperService.save_csv_archive(tweets, content['csv_archive_name'],
                                                                  content['fieldnames'])
