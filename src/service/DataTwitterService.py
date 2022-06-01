@@ -68,10 +68,12 @@ class DataTwitter:
         with open(content_source_filename, 'r', encoding='utf-8') as csvfile:
             reader = csv.reader(csvfile, delimiter=delimiter)
             for row in reader:
-                tokens = row[0].split()
+                if len(row) > 0:
+                    
+                    tokens = row[0].split()
 
-                for i in range(len(tokens)):
-                    tokens[i] = tokens[i].lower()
+                    for i in range(len(tokens)):
+                        tokens[i] = tokens[i].lower()
 
             comment_words += " ".join(tokens) + " "
             self.__plot_graphic(
