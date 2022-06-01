@@ -26,7 +26,6 @@ class BucketService:
         finally:
             print(f"End send file to AWS S3 - BucketService::send")
 
-
     def __format_file_key(self, file_key):
         now = datetime.today().strftime('%Y-%m-%d%H:%M:%S')
         names = file_key.split('.')
