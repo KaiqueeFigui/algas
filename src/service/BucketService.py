@@ -1,4 +1,4 @@
-import src.service.BucketServiceHelper as BucketServiceHelper
+import service.BucketServiceHelper as BucketServiceHelper
 from datetime import datetime
 from dotenv import load_dotenv
 import os
