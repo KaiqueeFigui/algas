@@ -41,6 +41,7 @@ class DataTwitter:
         self.directory = path.dirname(__file__) if "__file__" in locals() else os.getcwd()
 
     def find_recent_tweets(self, query, limit):
+        print(f"Start finding Tweets by query: {query} - DataTwitterService::find_recent_tweets")
         self.query = query
         date_in_datetime_format = datetime.today()
         datareal = datetime.isoformat(date_in_datetime_format)
@@ -52,7 +53,7 @@ class DataTwitter:
             end_time=(datareal + "Z"),
             max_results=100
         ).flatten(limit)
-
+        print(f"End finding Tweets by query: {query} - DataTwitterService::find_recent_tweets")
         return self.__copy_tweets(tweets)
 
     def __copy_tweets(self, tweets):

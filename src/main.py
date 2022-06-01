@@ -34,13 +34,13 @@ def generate_files_from_tweets(tweets):
         if option == "1":
             FileHelperService.FileHelperService.save_csv_archive(tweets, content['csv_archive_name'],
                                                                  content['fieldnames'])
-            bucket_service.send("stack-01-kaique-3cco-sptech-bucket-ns", content['csv_archive_name'], content['csv_name'])
+            bucket_service.send_to_not_structured(content['csv_archive_name'], content['csv_name'])
         elif option == "2":
             FileHelperService.FileHelperService.save_txt_archive(tweets, content['txt_archive_name'])
-            bucket_service.send("stack-01-kaique-3cco-sptech-bucket-ns", content['txt_archive_name'], content['txt_name'])
+            bucket_service.send_to_not_structured(content['txt_archive_name'], content['txt_name'])
         elif option == "3":
             FileHelperService.FileHelperService.save_tweets_to_json_archive(tweets, content['json_archive_name'])
-            bucket_service.send("stack-01-kaique-3cco-sptech-bucket-ns", content['json_archive_name'], content['json_name'])
+            bucket_service.send_to_not_structured(content['json_archive_name'], content['json_name'])
         elif option == "4":
             FileHelperService.FileHelperService.save_csv_archive(tweets, content['csv_archive_name'],
                                                                  content['fieldnames'])
