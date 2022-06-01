@@ -5,25 +5,25 @@ import json
 class FileHelperService:
 
     @staticmethod
-    def save_csv_archive(tweets, filename, fieldnames):
+    def save_csv_archive(data_amount, filename, fieldnames):
         with open(filename, 'w', encoding='utf-8') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames, delimiter=";")
             writer.writeheader()
-            for tweet in tweets:
+            for data in data_amount:
                 writer.writerow({
-                    fieldnames[0]: tweet.text,
-                    fieldnames[1]: tweet.created_at,
-                    fieldnames[2]: tweet.source
+                    fieldnames[0]: data.text,
+                    fieldnames[1]: data.created_at,
+                    fieldnames[2]: data.source
                 })
 
     @staticmethod
-    def save_txt_archive(tweets, filename, delimiter='   ...[end]\n'):
+    def save_txt_archive(data_amount, filename, delimiter='   ...[end]\n'):
         with open(filename, 'w', encoding="utf-8") as txt:
-            for tweet in tweets:
-                txt.write(str(tweet) + delimiter)
+            for data in data_amount:
+                txt.write(str(data) + delimiter)
 
     @staticmethod
-    def save_json_archive(tweets, filename):
+    def save_tweets_to_json_archive(tweets, filename):
         with open(filename, 'w', encoding='utf-8') as json_file:
             try:
                 list_object_tweets = []
