@@ -11,10 +11,8 @@ bucket_service = BucketService.BucketService()
 OPERACAO_INVALIDA = "Operação inválida, tente novamente"
 
 
-def run_data_twitter():
-    input_str = input(content['input_string'])
-    input_limit = int(input(content['input_limit']))
-    return data_twitter.find_recent_tweets(input_str, input_limit)
+def run_data_twitter(query, limit):
+    return data_twitter.find_recent_tweets(query, limit)
 
 
 def archive_generation_option():
@@ -27,20 +25,33 @@ def archive_generation_option():
     return input()
 
 
-def generate_files_from_tweets(tweets):
+def generete_name(query, archive_type):
+    split_by_space_query = query.split(" ")
+    new_query = "_".join(split_by_space_query)
+    if archive_type == "csv":
+        return new_query + ".csv"
+    elif archive_type == "txt":
+        return new_query + ".txt"
+    elif archive_type == "json":
+        return new_query + ".json"
+    else:
+        raise Exception("Tipo de arquivo inválido")
+
+
+def generate_files_from_tweets(tweets, query):
     while True:
         option = archive_generation_option()
 
         if option == "1":
             FileHelperService.FileHelperService.save_csv_archive(tweets, content['csv_archive_name'],
                                                                  content['fieldnames'])
-            bucket_service.send_to_not_structured(content['csv_archive_name'], content['csv_name'])
+            bucket_service.send_to_not_structured(content['csv_archive_name'], generete_name(query, "csv"))
         elif option == "2":
             FileHelperService.FileHelperService.save_txt_archive(tweets, content['txt_archive_name'])
-            bucket_service.send_to_not_structured(content['txt_archive_name'], content['txt_name'])
+            bucket_service.send_to_not_structured(content['txt_archive_name'], generete_name(query, "txt"))
         elif option == "3":
             FileHelperService.FileHelperService.save_tweets_to_json_archive(tweets, content['json_archive_name'])
-            bucket_service.send_to_not_structured(content['json_archive_name'], content['json_name'])
+            bucket_service.send_to_not_structured(content['json_archive_name'], generete_name(query, "json"))
         elif option == "4":
             FileHelperService.FileHelperService.save_csv_archive(tweets, content['csv_archive_name'],
                                                                  content['fieldnames'])
@@ -63,8 +74,10 @@ def main():
     while True:
         option = data_generation_option()
         if option == "1":
-            tweets = run_data_twitter()
-            generate_files_from_tweets(tweets)
+            query = input(content['input_string'])
+            limit = int(input(content['input_limit']))
+            tweets = run_data_twitter(query, limit)
+            generate_files_from_tweets(tweets, query)
         elif option == "2":
             geracaoDadosService.contador_tempo_memoria()
         elif option == "":
