@@ -67,15 +67,16 @@ class DataTwitter:
 
         with open(content_source_filename, 'r', encoding='utf-8') as csvfile:
             reader = csv.reader(csvfile, delimiter=delimiter)
+            cursed_words = self.__get_cursed_words()
             for row in reader:
                 if len(row) > 0:
-                    
                     tokens = row[0].split()
 
                     for i in range(len(tokens)):
-                        tokens[i] = tokens[i].lower()
+                        word = tokens[i].lower()
+                        if word not in cursed_words:
+                            comment_words += ' ' + word + ' '
 
-            comment_words += " ".join(tokens) + " "
             self.__plot_graphic(
                 WordCloud(
                     background_color="white",
@@ -84,6 +85,10 @@ class DataTwitter:
                     stopwords=self.stopwords,
                 ).generate(comment_words)
             )
+
+    def __get_cursed_words(self):
+        with open("tweassets/cursed_words.txt") as f:
+            return tuple(map(lambda x: x.lower().replace('\n', ''), f.readlines()))
 
     def __plot_graphic(self, content):
         plt.figure()
