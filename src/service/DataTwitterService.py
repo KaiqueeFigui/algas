@@ -72,10 +72,9 @@ class DataTwitter:
                 if len(row) > 0:
                     tokens = row[0].split()
 
-                    for i in range(len(tokens)):
-                        word = tokens[i].lower()
-                        if word not in cursed_words:
-                            comment_words += ' ' + word + ' '
+                    for token in tokens:
+                        if token not in self.stopwords and token not in cursed_words:
+                            comment_words += ' ' + token
 
             self.__plot_graphic(
                 WordCloud(
