@@ -70,25 +70,21 @@ class DataTwitter:
             cursed_words = self.__get_cursed_words()
             for row in reader:
                 if len(row) > 0:
-                    tokens = row[0].split()
-
-                    for i in range(len(tokens)):
-                        word = tokens[i].lower()
-                        if word not in cursed_words:
-                            comment_words += ' ' + word + ' '
+                    words = row[0].split()
+                    comment_words += " ".join(words) + " "
 
             self.__plot_graphic(
                 WordCloud(
                     background_color="white",
                     max_font_size=60,
                     margin=10,
-                    stopwords=self.stopwords,
+                    stopwords=[*self.stopwords, *cursed_words],
                 ).generate(comment_words)
             )
 
     def __get_cursed_words(self):
-        with open("tweassets/cursed_words.txt") as f:
-            return tuple(map(lambda x: x.lower().replace('\n', ''), f.readlines()))
+        with open("cursed_words.txt") as f:
+            return list(map(lambda x: x.lower().replace('\n', ''), f.readlines()))
 
     def __plot_graphic(self, content):
         plt.figure()
