@@ -65,7 +65,7 @@ def generate_files_from_tweets(tweets, query):
 def data_generation_option():
     print("Selecione uma das seguintes opções:")
     print("Tecle [1] para Buscar Posts no Twitter")
-    print("Tecle [2] para Geração de Dados aleatórios")
+    # print("Tecle [2] para Geração de Dados aleatórios")
     print("Tecle [Enter] para sair")
     return input()
 
@@ -78,8 +78,8 @@ def main():
             limit = int(input(content['input_limit']))
             tweets = run_data_twitter(query, limit)
             generate_files_from_tweets(tweets, query)
-        elif option == "2":
-            geracaoDadosService.contador_tempo_memoria()
+        # elif option == "2":
+        #     geracaoDadosService.contador_tempo_memoria()
         elif option == "":
             return
         else:
