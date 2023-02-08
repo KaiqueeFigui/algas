@@ -3,7 +3,7 @@ botocore==1.26.10
 certifi==2022.5.18.1
 cffi==1.15.0
 charset-normalizer==2.0.12
-cryptography==36.0.2
+cryptography==39.0.1
 cycler==0.11.0
 fonttools==4.33.3
 greenlet==1.1.2
